@@ -35,6 +35,7 @@ class Metrics(Modeling):
     market_cap: Optional[Decimal] = None
     shares_out: Optional[Decimal] = None
     rtn: Optional[Decimal] = None
+    winsorized_5_rtn: Optional[Decimal] = None
 
     @classmethod
     def build_record(cls, prev_record: BaseData, record: BaseData) -> "Metrics":
@@ -109,6 +110,7 @@ class Metrics(Modeling):
         res.market_cap = record.market_cap
         res.shares_out = record.shares_out
         res.rtn = record.rtn
+        res.winsorized_5_rtn = record.winsorized_5_rtn
 
         return res
 
@@ -132,6 +134,7 @@ class Metrics(Modeling):
             self.market_cap,
             self.shares_out,
             self.rtn,
+            self.winsorized_5_rtn,
         )
 
     @property

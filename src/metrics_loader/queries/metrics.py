@@ -25,7 +25,8 @@ class Queries(BaseQueries):
         "       short_ratio, "
         "       market_cap, "
         "       shares_out, "
-        "       rtn "
+        "       rtn, "
+        "       winsorized_5_rtn"
         ") VALUES %s "
         "ON CONFLICT (datadate, gvkey) DO "
         "UPDATE SET "
@@ -46,5 +47,6 @@ class Queries(BaseQueries):
         "       short_ratio=EXCLUDED.short_ratio, "
         "       market_cap=EXCLUDED.market_cap, "
         "       shares_out=EXCLUDED.shares_out, "
-        "       rtn=EXCLUDED.rtn; "
+        "       rtn=EXCLUDED.rtn, "
+        "       winsorized_5_rtn=EXCLUDED.winsorized_5_rtn; "
     )
