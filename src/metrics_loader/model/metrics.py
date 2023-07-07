@@ -34,6 +34,7 @@ class Metrics(Modeling):
 
     market_cap: Optional[Decimal] = None
     shares_out: Optional[Decimal] = None
+    volume: Optional[Decimal] = None
     rtn: Optional[Decimal] = None
     winsorized_5_rtn: Optional[Decimal] = None
 
@@ -44,57 +45,58 @@ class Metrics(Modeling):
         res.datadate = record.datadate
         res.gvkey = record.gvkey
 
-        res.utilization_pct_delta = (
-            record.utilization_pct - prev_record.utilization_pct
-            if record.utilization_pct and prev_record.utilization_pct
-            else None
-        )
-        res.bar_delta = (
-            record.bar - prev_record.bar if record.bar and prev_record.bar else None
-        )
-        res.age_delta = (
-            record.age - prev_record.age if record.age and prev_record.age else None
-        )
-        res.tickets_delta = (
-            record.tickets - prev_record.tickets
-            if record.tickets and prev_record.tickets
-            else None
-        )
-        res.units_delta = (
-            record.units - prev_record.units
-            if record.units and prev_record.units
-            else None
-        )
-        res.market_value_usd_delta = (
-            record.market_value_usd - prev_record.market_value_usd
-            if record.market_value_usd and prev_record.market_value_usd
-            else None
-        )
-        res.loan_rate_avg_delta = (
-            record.loan_rate_avg - prev_record.loan_rate_avg
-            if record.loan_rate_avg and prev_record.loan_rate_avg
-            else None
-        )
-        res.loan_rate_max_delta = (
-            record.loan_rate_max - prev_record.loan_rate_max
-            if record.loan_rate_max and prev_record.loan_rate_max
-            else None
-        )
-        res.loan_rate_min_delta = (
-            record.loan_rate_min - prev_record.loan_rate_min
-            if record.loan_rate_min and prev_record.loan_rate_min
-            else None
-        )
-        res.loan_rate_range_delta = (
-            record.loan_rate_range - prev_record.loan_rate_range
-            if record.loan_rate_range and prev_record.loan_rate_range
-            else None
-        )
-        res.loan_rate_stdev_delta = (
-            record.loan_rate_stdev - prev_record.loan_rate_stdev
-            if record.loan_rate_stdev and prev_record.loan_rate_stdev
-            else None
-        )
+        if record and prev_record:
+            res.utilization_pct_delta = (
+                record.utilization_pct - prev_record.utilization_pct
+                if record.utilization_pct and prev_record.utilization_pct
+                else None
+            )
+            res.bar_delta = (
+                record.bar - prev_record.bar if record.bar and prev_record.bar else None
+            )
+            res.age_delta = (
+                record.age - prev_record.age if record.age and prev_record.age else None
+            )
+            res.tickets_delta = (
+                record.tickets - prev_record.tickets
+                if record.tickets and prev_record.tickets
+                else None
+            )
+            res.units_delta = (
+                record.units - prev_record.units
+                if record.units and prev_record.units
+                else None
+            )
+            res.market_value_usd_delta = (
+                record.market_value_usd - prev_record.market_value_usd
+                if record.market_value_usd and prev_record.market_value_usd
+                else None
+            )
+            res.loan_rate_avg_delta = (
+                record.loan_rate_avg - prev_record.loan_rate_avg
+                if record.loan_rate_avg and prev_record.loan_rate_avg
+                else None
+            )
+            res.loan_rate_max_delta = (
+                record.loan_rate_max - prev_record.loan_rate_max
+                if record.loan_rate_max and prev_record.loan_rate_max
+                else None
+            )
+            res.loan_rate_min_delta = (
+                record.loan_rate_min - prev_record.loan_rate_min
+                if record.loan_rate_min and prev_record.loan_rate_min
+                else None
+            )
+            res.loan_rate_range_delta = (
+                record.loan_rate_range - prev_record.loan_rate_range
+                if record.loan_rate_range and prev_record.loan_rate_range
+                else None
+            )
+            res.loan_rate_stdev_delta = (
+                record.loan_rate_stdev - prev_record.loan_rate_stdev
+                if record.loan_rate_stdev and prev_record.loan_rate_stdev
+                else None
+            )
 
         res.short_interest = (
             record.units / record.shares_out
@@ -109,6 +111,7 @@ class Metrics(Modeling):
 
         res.market_cap = record.market_cap
         res.shares_out = record.shares_out
+        res.volume = record.volume
         res.rtn = record.rtn
         res.winsorized_5_rtn = record.winsorized_5_rtn
 
@@ -133,6 +136,7 @@ class Metrics(Modeling):
             self.short_ratio,
             self.market_cap,
             self.shares_out,
+            self.volume,
             self.rtn,
             self.winsorized_5_rtn,
         )

@@ -25,6 +25,7 @@ class Queries(BaseQueries):
         "       short_ratio, "
         "       market_cap, "
         "       shares_out, "
+        "       volume, "
         "       rtn, "
         "       winsorized_5_rtn"
         ") VALUES %s "
@@ -47,6 +48,7 @@ class Queries(BaseQueries):
         "       short_ratio=EXCLUDED.short_ratio, "
         "       market_cap=EXCLUDED.market_cap, "
         "       shares_out=EXCLUDED.shares_out, "
+        "       volume=EXCLUDED.volume, "
         "       rtn=EXCLUDED.rtn, "
         "       winsorized_5_rtn=EXCLUDED.winsorized_5_rtn; "
     )

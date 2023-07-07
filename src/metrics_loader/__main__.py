@@ -3,7 +3,7 @@
 import logging
 from sys import stdout
 import os
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from metrics_loader.date_helpers import generate_years
 import metrics_loader.model as model
@@ -65,7 +65,7 @@ class Loader:
         entity = self._entities["metrics"]
         for timeframe in self._timeframes.values():
             logger.info(f"Starting process for {timeframe}_metrics...")
-            history: Dict[int, List[model.BaseData]] = {}
+            history: Dict[int, List[Optional[model.BaseData]]] = {}
 
             # CHANGE HERE TO RUN BY YEAR INSTEAD OF SEMESTER
             date_ranges = generate_years(self.YEARS)
@@ -97,7 +97,10 @@ class Loader:
                             history[record.gvkey].append(record)
 
                     for key in history.keys():
-                        history[key].sort(key=lambda x: x.datadate)
+                        history[key].sort(key=lambda x: getattr(x, 'datadate'))
+                        # Adding a None before each gvkey's history
+                        # So that SI and SR are computed for the 1st record
+                        history[key] = [None] + history[key]
 
                     # PROCESS WOULD BE IMPLEMENTED HERE
                     logger.debug("Curating records...")
@@ -128,7 +131,7 @@ class Loader:
 
                 i += 1
             logger.info(f"Persisted {i}/{n} {timeframe}.")
-        logger.info("Process finished. Terminating...")
+        logger.info("Terminating...")
 
     @staticmethod
     def list_slicer(lst: List, slice_len: int) -> List[List]:
